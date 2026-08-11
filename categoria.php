@@ -2,36 +2,48 @@
 session_start();
 require_once 'config/conexao.php';
 
-$q = isset($_GET['q']) ? trim($_GET['q']) : '';
+$categoria_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-try {
-    $stmt = $pdo->prepare("
-        SELECT a.*, u.nome AS prestador, u.id AS prestador_id, s.nome AS subcategoria 
-        FROM anuncios a
-        JOIN usuarios u ON a.usuario_id = u.id
-        JOIN subcategorias s ON a.subcategoria_id = s.id
-        WHERE a.titulo LIKE :q1 OR a.descricao LIKE :q2
-        ORDER BY a.data_criacao DESC
-    ");
-    $stmt->execute([
-        ':q1' => "%$q%",
-        ':q2' => "%$q%"
-    ]);
-    $anuncios = $stmt->fetchAll();
-} catch (PDOException $e) {
-    $anuncios = [];
+// Busca os dados da Categoria Principal
+$stmt_cat = $pdo->prepare("SELECT * FROM categorias WHERE id = :id");
+$stmt_cat->execute([':id' => $categoria_id]);
+$categoria = $stmt_cat->fetch();
+
+if (!$categoria) {
+    header("Location: index.php");
+    exit;
 }
+
+// Busca os Anúncios vinculados às subcategorias desta Categoria
+$stmt_anuncios = $pdo->prepare("
+    SELECT a.*, u.nome AS prestador, u.id AS prestador_id, s.nome AS subcategoria 
+    FROM anuncios a
+    JOIN usuarios u ON a.usuario_id = u.id
+    JOIN subcategorias s ON a.subcategoria_id = s.id
+    WHERE s.categoria_id = :cat_id
+    ORDER BY a.data_criacao DESC
+");
+$stmt_anuncios->execute([':cat_id' => $categoria_id]);
+$anuncios = $stmt_anuncios->fetchAll();
 
 include 'includes/header.php';
 ?>
 
 <main class="container" style="padding-top: 40px; padding-bottom: 50px;">
-    <h2>Resultados para: "<?= htmlspecialchars($q) ?>"</h2>
-    <p style="color: #64748b; margin-bottom: 30px;"><?= count($anuncios) ?> serviço(s) encontrado(s)</p>
+    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+        <div class="icon-circle">
+            <i class="fas <?= htmlspecialchars($categoria['icone_url']) ?>"></i>
+        </div>
+        <div>
+            <h1><?= htmlspecialchars($categoria['nome']) ?></h1>
+            <p style="color: #64748b;"><?= count($anuncios) ?> serviço(s) disponível(is) nesta categoria</p>
+        </div>
+    </div>
 
     <?php if (empty($anuncios)): ?>
-        <div style="background: #fff; padding: 30px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
-            <p style="color: #64748b;">Nenhum serviço encontrado com esse termo.</p>
+        <div style="background: #fff; padding: 40px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;">
+            <p style="color: #64748b;">Nenhum anúncio cadastrado nesta categoria ainda.</p>
+            <a href="anunciar.php" class="btn-anunciar" style="display: inline-block; margin-top: 15px; text-decoration: none;">Seja o primeiro a anunciar!</a>
         </div>
     <?php else: ?>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
