@@ -11,6 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <title>TrampoCerto - Plataforma de Autônomos</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="assets/js/main.js" defer></script>
 </head>
 <body>
     <header class="navbar">
@@ -22,7 +23,6 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php if (isset($_SESSION['usuario_id'])): ?>
                     <a href="anunciar.php" class="btn-anunciar">Anunciar Serviço</a>
                     
-                    <!-- Botão que direciona para a página de perfil -->
                     <a href="perfil.php" style="font-weight: 600; text-decoration: none; color: var(--primary-color); display: flex; align-items: center; gap: 6px;">
                         <i class="fas fa-user-circle" style="font-size: 1.2rem; color: var(--accent-color);"></i>
                         <?= htmlspecialchars($_SESSION['usuario_nome']) ?>
