@@ -15,14 +15,20 @@ if (session_status() === PHP_SESSION_NONE) {
 <body>
     <header class="navbar">
         <div class="container nav-container">
-            <a href="index.php" class="logo"><i class="fas fa-tools"></i> Trampo Certo</a>
+            <a href="index.php" class="logo"><i class="fas fa-tools"></i> TrampoCerto</a>
             
             <nav class="nav-links">
                 <a href="index.php">Início</a>
                 <?php if (isset($_SESSION['usuario_id'])): ?>
                     <a href="anunciar.php" class="btn-anunciar">Anunciar Serviço</a>
-                    <span style="font-weight: 600;">Olá, <?= htmlspecialchars($_SESSION['usuario_nome']) ?></span>
-                    <a href="logout.php" style="color: #ef4444; font-size: 0.9rem;"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                    
+                    <!-- Botão que direciona para a página de perfil -->
+                    <a href="perfil.php" style="font-weight: 600; text-decoration: none; color: var(--primary-color); display: flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-user-circle" style="font-size: 1.2rem; color: var(--accent-color);"></i>
+                        <?= htmlspecialchars($_SESSION['usuario_nome']) ?>
+                    </a>
+                    
+                    <a href="logout.php" style="color: #ef4444; font-size: 0.9rem; text-decoration: none;"><i class="fas fa-sign-out-alt"></i> Sair</a>
                 <?php else: ?>
                     <a href="cadastro.php" class="btn-anunciar">Anunciar Serviço</a>
                     <a href="login.php" class="btn-login"><i class="fas fa-user"></i> Entrar</a>
