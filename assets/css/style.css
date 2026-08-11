@@ -89,11 +89,12 @@ body {
     border-radius: 6px;
 }
 
-/* Hero Section (Banner de Busca) */
 .hero-section {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    /* Gradiente verde/escuro transparente sobreposto à foto do profissional */
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.92) 0%, rgba(16, 185, 129, 0.55) 100%), 
+                url('../img/hero-bg.jpg') center/cover no-repeat;
     color: var(--white);
-    padding: 70px 0;
+    padding: 85px 0;
     text-align: center;
 }
 
