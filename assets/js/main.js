@@ -1,14 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // ==========================================
+    // 1. LÓGICA DO MODO NOTURNO (DARK MODE)
+    // ==========================================
+    const themeToggleBtn = document.getElementById('theme-toggle');
+
+    function updateThemeIcon() {
+        if (!themeToggleBtn) return;
+        const icon = themeToggleBtn.querySelector('i');
+        const isDark = document.documentElement.classList.contains('dark-mode');
+
+        if (isDark) {
+            icon.className = 'fas fa-sun';
+            icon.style.color = '#f59e0b'; // Ícone de Sol Amarelo
+        } else {
+            icon.className = 'fas fa-moon';
+            icon.style.color = ''; // Ícone de Lua Padrão
+        }
+    }
+
+    // Inicializa o ícone correto
+    updateThemeIcon();
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark-mode');
+            const isDark = document.documentElement.classList.contains('dark-mode');
+            
+            // Salva a preferência no navegador
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon();
+        });
+    }
+
+
+    // ==========================================
+    // 2. SUGESTÕES DE BUSCA EM TEMPO REAL (AJAX)
+    // ==========================================
     const searchInputs = document.querySelectorAll('.search-box input[type="text"]');
 
     searchInputs.forEach(input => {
         const searchBox = input.closest('.search-box');
         
-        // Garante que a search-box tenha posição relativa para alinhar o dropdown
         if (searchBox) {
             searchBox.style.position = 'relative';
 
-            // Cria o container do dropdown de sugestões
             const dropdown = document.createElement('div');
             dropdown.className = 'search-suggestions-dropdown';
             searchBox.appendChild(dropdown);
@@ -25,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Espera 300ms após o usuário parar de digitar para consultar o servidor
                 timer = setTimeout(() => {
                     fetch(`sugestoes.php?q=${encodeURIComponent(query)}`)
                         .then(response => response.json())
@@ -51,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 300);
             });
 
-            // Esconde as sugestões se o usuário clicar fora do campo
             document.addEventListener('click', (e) => {
                 if (!searchBox.contains(e.target)) {
                     dropdown.style.display = 'none';

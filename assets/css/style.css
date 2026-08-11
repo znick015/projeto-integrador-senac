@@ -367,3 +367,132 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ===================================================
+   ESTILOS DO MODO NOTURNO (DARK MODE)
+   =================================================== */
+
+/* Botão do Tema no Cabeçalho */
+.btn-theme-toggle {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-theme-toggle:hover {
+    background: #f1f5f9;
+    transform: scale(1.05);
+}
+
+/* Regras de Cores Escuras */
+html.dark-mode {
+    background-color: #0f172a;
+    color: #f8fafc;
+}
+
+html.dark-mode body {
+    background-color: #0f172a;
+    color: #f8fafc;
+}
+
+html.dark-mode .navbar {
+    background-color: #1e293b;
+    border-bottom: 1px solid #334155;
+}
+
+html.dark-mode .nav-links a {
+    color: #cbd5e1;
+}
+
+html.dark-mode .btn-login {
+    border-color: #475569;
+    color: #f8fafc;
+}
+
+html.dark-mode .btn-theme-toggle {
+    border-color: #475569;
+    color: #f59e0b;
+}
+
+html.dark-mode .btn-theme-toggle:hover {
+    background: #334155;
+}
+
+/* Cards e Paineis no Modo Escuro */
+html.dark-mode .form-card,
+html.dark-mode .filter-sidebar,
+html.dark-mode div[style*="background: #fff"],
+html.dark-mode div[style*="background:#fff"],
+html.dark-mode div[style*="background: #ffffff"] {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f8fafc;
+}
+
+/* Textos Secundários e Títulos */
+html.dark-mode h1, 
+html.dark-mode h2, 
+html.dark-mode h3, 
+html.dark-mode h4 {
+    color: #f8fafc !important;
+}
+
+html.dark-mode p[style*="color: #64748b"],
+html.dark-mode span[style*="color: #64748b"],
+html.dark-mode p,
+html.dark-mode label {
+    color: #94a3b8 !important;
+}
+
+/* Inputs, Selects e Textareas */
+html.dark-mode input[type="text"],
+html.dark-mode input[type="email"],
+html.dark-mode input[type="password"],
+html.dark-mode input[type="number"],
+html.dark-mode select,
+html.dark-mode textarea {
+    background-color: #0f172a !important;
+    border-color: #334155 !important;
+    color: #f8fafc !important;
+}
+
+/* Ajustes em Categorias e Cards */
+html.dark-mode .card-category {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+html.dark-mode .card-category:hover {
+    border-color: var(--accent-color);
+}
+
+/* Dropdown de Sugestões de Busca */
+html.dark-mode .search-suggestions-dropdown {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+html.dark-mode .suggestion-item {
+    border-bottom-color: #334155;
+    color: #f8fafc;
+}
+
+html.dark-mode .suggestion-item:hover {
+    background-color: #334155;
+}
+
+/* Rodapé */
+html.dark-mode footer {
+    background-color: #0f172a;
+    border-top: 1px solid #1e293b;
+    color: #64748b;
+}

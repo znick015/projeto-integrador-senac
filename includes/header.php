@@ -11,6 +11,13 @@ if (session_status() === PHP_SESSION_NONE) {
     <title>TrampoCerto - Plataforma de Autônomos</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Script que impede o pisca branco ao carregar no modo noturno -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
     <script src="assets/js/main.js" defer></script>
 </head>
 <body>
@@ -33,6 +40,11 @@ if (session_status() === PHP_SESSION_NONE) {
                     <a href="cadastro.php" class="btn-anunciar">Anunciar Serviço</a>
                     <a href="login.php" class="btn-login"><i class="fas fa-user"></i> Entrar</a>
                 <?php endif; ?>
+
+                <!-- BOTÃO DE ALTERNAR MODO NOTURNO -->
+                <button id="theme-toggle" class="btn-theme-toggle" title="Alternar Modo Noturno">
+                    <i class="fas fa-moon"></i>
+                </button>
             </nav>
         </div>
     </header>
