@@ -4,20 +4,25 @@ require_once 'config/conexao.php';
 
 $q            = isset($_GET['q']) ? trim($_GET['q']) : '';
 $subcat_id    = isset($_GET['subcategoria']) ? (int)$_GET['subcategoria'] : 0;
+$cidade_f     = isset($_GET['cidade']) ? trim($_GET['cidade']) : '';
 $preco_min    = isset($_GET['preco_min']) && $_GET['preco_min'] !== '' ? (float)$_GET['preco_min'] : null;
 $preco_max    = isset($_GET['preco_max']) && $_GET['preco_max'] !== '' ? (float)$_GET['preco_max'] : null;
 $ordem        = isset($_GET['ordem']) ? $_GET['ordem'] : 'recentes';
 
-// Busca todas as subcategorias para popular o filtro
 $subcategorias = $pdo->query("SELECT * FROM subcategorias ORDER BY nome ASC")->fetchAll();
 
-// Monta a Query dinâmica
+// Monta filtros SQL
 $where = ["(a.titulo LIKE :q1 OR a.descricao LIKE :q2)"];
 $params = [':q1' => "%$q%", ':q2' => "%$q%"];
 
 if ($subcat_id > 0) {
     $where[] = "a.subcategoria_id = :subcat";
     $params[':subcat'] = $subcat_id;
+}
+
+if (!empty($cidade_f)) {
+    $where[] = "a.cidade LIKE :cidade";
+    $params[':cidade'] = "%$cidade_f%";
 }
 
 if ($preco_min !== null) {
@@ -32,7 +37,6 @@ if ($preco_max !== null) {
 
 $where_sql = implode(' AND ', $where);
 
-// Define a ordenação
 $order_sql = "a.data_criacao DESC";
 if ($ordem === 'preco_asc') {
     $order_sql = "a.preco_medio ASC";
@@ -102,6 +106,12 @@ include 'includes/header.php';
                     </select>
                 </div>
 
+                <!-- Filtro de Cidade -->
+                <div class="filter-group">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" name="cidade" placeholder="Ex: Belo Horizonte" value="<?= htmlspecialchars($cidade_f) ?>">
+                </div>
+
                 <!-- Faixa de Preço -->
                 <div class="filter-group">
                     <label>Preço Médio (R$):</label>
@@ -141,6 +151,11 @@ include 'includes/header.php';
                                 <h3 style="margin: 8px 0; font-size: 1.1rem; color: var(--primary-color);">
                                     <?= htmlspecialchars($anuncio['titulo']) ?>
                                 </h3>
+
+                                <!-- Localização -->
+                                <p style="color: #ef4444; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">
+                                    <i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($anuncio['bairro'] ? $anuncio['bairro'] . ', ' : '') ?><?= htmlspecialchars($anuncio['cidade']) ?>/<?= htmlspecialchars($anuncio['estado']) ?>
+                                </p>
 
                                 <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 12px;">
                                     Por: <a href="perfil_publico.php?id=<?= $anuncio['prestador_id'] ?>" style="color: var(--primary-color); font-weight: 700; text-decoration: underline;"><?= htmlspecialchars($anuncio['prestador']) ?></a>
