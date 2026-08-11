@@ -3,31 +3,33 @@ session_start();
 require_once 'config/conexao.php';
 
 $erro = '';
-$sucesso = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome     = trim($_POST['nome']);
     $email    = trim($_POST['email']);
     $telefone = trim($_POST['telefone']);
+    $cidade   = trim($_POST['cidade']);
+    $estado   = strtoupper(trim($_POST['estado']));
     $senha    = $_POST['senha'];
 
-    if (!empty($nome) && !empty($email) && !empty($senha)) {
-        // Criptografia Segura da Senha (Exigência do Projeto)
+    if (!empty($nome) && !empty($email) && !empty($senha) && !empty($cidade) && !empty($estado)) {
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO usuarios (nome, email, telefone, senha_hash) VALUES (:nome, :email, :telefone, :senha)");
+            $stmt = $pdo->prepare("INSERT INTO usuarios (nome, email, telefone, cidade, estado, senha_hash) VALUES (:nome, :email, :telefone, :cidade, :estado, :senha)");
             $stmt->execute([
                 ':nome'     => $nome,
                 ':email'    => $email,
                 ':telefone' => $telefone,
+                ':cidade'   => $cidade,
+                ':estado'   => $estado,
                 ':senha'    => $senha_hash
             ]);
 
             header("Location: login.php?cadastrado=1");
             exit;
         } catch (PDOException $e) {
-            if ($e->getCode() == 23000) { // Erro de e-mail duplicado
+            if ($e->getCode() == 23000) {
                 $erro = "Este e-mail já está cadastrado no sistema!";
             } else {
                 $erro = "Erro ao cadastrar usuário: " . $e->getMessage();
@@ -44,7 +46,7 @@ include 'includes/header.php';
 <main class="container">
     <div class="form-card">
         <h2>Criar uma Conta</h2>
-        <p style="margin-bottom: 20px; color: #64748b;">Cadastre-se para anunciar serviços ou contratar profissionais.</p>
+        <p style="margin-bottom: 20px; color: #64748b;">Cadastre-se para anunciar ou contratar serviços.</p>
 
         <?php if ($erro): ?>
             <div class="alert-danger"><?= $erro ?></div>
@@ -64,6 +66,17 @@ include 'includes/header.php';
             <div class="form-group">
                 <label for="telefone">WhatsApp / Telefone *</label>
                 <input type="text" id="telefone" name="telefone" required placeholder="(31) 99999-9999">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                <div class="form-group">
+                    <label for="cidade">Cidade *</label>
+                    <input type="text" id="cidade" name="cidade" required placeholder="Ex: Contagem">
+                </div>
+                <div class="form-group">
+                    <label for="estado">UF *</label>
+                    <input type="text" id="estado" name="estado" maxlength="2" required placeholder="MG">
+                </div>
             </div>
 
             <div class="form-group">
