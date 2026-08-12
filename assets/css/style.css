@@ -496,3 +496,195 @@ html.dark-mode footer {
     border-top: 1px solid #1e293b;
     color: #64748b;
 }
+
+/* ===================================================
+   ESTILOS GETNINJAS - CABEÇALHO E ANÚNCIO
+   =================================================== */
+
+/* Busca Compacta no Cabeçalho */
+.header-search {
+    max-width: 380px !important;
+    margin: 0 15px !important;
+    border-radius: 20px !important;
+    border: 1px solid var(--border-color) !important;
+    background: #f8fafc;
+}
+
+.header-search input {
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+}
+
+.header-search button {
+    display: none; /* Busca em tempo real e no Enter */
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+.breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+}
+.breadcrumb a:hover {
+    color: var(--accent-color);
+}
+
+/* Layout Principal de Anúncio Estilo GetNinjas */
+.gn-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 35px;
+    margin-bottom: 50px;
+}
+
+/* Imagem Grande do Serviço */
+.gn-cover-box {
+    width: 100%;
+    height: 420px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #e2e8f0;
+    margin-bottom: 25px;
+}
+.gn-cover-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Card Fixo de Preço / Contratação (Lado Direito) */
+.gn-price-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+    position: sticky;
+    top: 90px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.gn-price-amount {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 15px 0 20px;
+}
+
+.btn-gn-contract {
+    display: block;
+    width: 100%;
+    background: #0f172a;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px;
+    border-radius: 25px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+.btn-gn-contract:hover {
+    background: var(--accent-color);
+}
+
+/* Tags / Pills abaixo de Sobre este serviço */
+.gn-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+.gn-tag {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+/* Listas de O que está incluso e O que não está incluso */
+.gn-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.gn-bullet-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+.gn-bullet-list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 12px;
+    color: #475569;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+.gn-bullet-list li::before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+    color: #94a3b8;
+    font-size: 1.2rem;
+}
+
+/* Caixa de Aviso (Notice Box) */
+.gn-notice-box {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #475569;
+}
+.gn-notice-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Ajustes para o Modo Noturno no GetNinjas layout */
+html.dark-mode .gn-price-card {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+}
+html.dark-mode .gn-tag {
+    background: #334155;
+    color: #cbd5e1;
+}
+html.dark-mode .gn-bullet-list li {
+    color: #cbd5e1;
+}
+html.dark-mode .gn-notice-box {
+    background: #0f172a;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+html.dark-mode .btn-gn-contract {
+    background: var(--accent-color);
+}
+
+@media (max-width: 900px) {
+    .gn-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
