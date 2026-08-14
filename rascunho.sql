@@ -12,3 +12,6 @@ ADD COLUMN cidade VARCHAR(100) DEFAULT 'Belo Horizonte',
 ADD COLUMN estado VARCHAR(2) DEFAULT 'MG';
 
 EXIT;
+
+sudo service mariadb start
+php8.3 -S 0.0.0.0:8000
