@@ -38,7 +38,11 @@ function obterImagemAnuncio($imagem_capa,$subcategoria_id = 0) {
         return $mapa_subcategorias[$subcategoria_id];
     }
 
-    // 3. Fallback geral caso a imagem específica não seja encontrada
+// 3. Fallback geral caso a imagem específica não seja encontrada
+    if (file_exists('assets/img/servicos/padrao.svg')) {
+        return 'assets/img/servicos/padrao.svg';
+    }
+
     return 'assets/img/hero-bg.jpg';
 }
 ?>
