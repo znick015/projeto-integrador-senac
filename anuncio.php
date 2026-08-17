@@ -29,12 +29,12 @@ if (!$anuncio) {
     exit;
 }
 
-// Avaliações
+// Avaliações do prestador
 $stmt_seller_rating = $pdo->prepare("SELECT AVG(av.nota) as media_geral FROM avaliacoes av JOIN anuncios an ON av.anuncio_id = an.id WHERE an.usuario_id = :seller_id");
 $stmt_seller_rating->execute([':seller_id' => $anuncio['prestador_id']]);
 $media_seller = round($stmt_seller_rating->fetch()['media_geral'], 1);
 
-// Processa interações
+// Processa envio de avaliação
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao_avaliacao'])) {
     if (!isset($_SESSION['usuario_id'])) { header("Location: login.php"); exit; }
     $nota = (int)$_POST['nota'];
@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao_avaliacao'])) {
     }
 }
 
+// Processa envio de pergunta do cliente
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao_pergunta'])) {
     if (!isset($_SESSION['usuario_id'])) { header("Location: login.php"); exit; }
     $pergunta = trim($_POST['pergunta']);
@@ -56,19 +57,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao_pergunta'])) {
     }
 }
 
+// Processa resposta do prestador
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao_resposta'])) {
     if (isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $anuncio['prestador_id']) {
         $id_pergunta = (int)$_POST['pergunta_id'];
         $resposta = trim($_POST['resposta']);
         if (!empty($resposta)) {
-            $stmt_resp = $pdo->prepare("UPDATE perguntas_respostas SET resposta_profissional = :resp, data_resposta = NOW() WHERE id = :p_id");
-            $stmt_resp->execute([':resp' => $resposta, ':p_id' => $id_pergunta]);
-            $mensagem = "Resposta publicada!";
+            $stmt_resp = $pdo->prepare("UPDATE perguntas_respostas SET resposta_profissional = :resp, data_resposta = NOW() WHERE id = :p_id AND anuncio_id = :anuncio_id");
+            $stmt_resp->execute([':resp' => $resposta, ':p_id' => $id_pergunta, ':anuncio_id' => $id]);
+            $mensagem = "Resposta publicada com sucesso!";
         }
     }
 }
 
-// Média de notas e listas
+// Médias e listagens
 $stmt_med = $pdo->prepare("SELECT AVG(nota) as media, COUNT(*) as total FROM avaliacoes WHERE anuncio_id = :id");
 $stmt_med->execute([':id' => $id]);
 $dados_notas = $stmt_med->fetch();
@@ -83,12 +85,11 @@ $perguntas = $stmt_pr->fetchAll();
 
 $whatsapp_num = preg_replace('/[^0-9]/', '', $anuncio['telefone_contato']);
 
-// Converte textos em listas de tópicos
 $inclusos_array = !empty($anuncio['itens_inclusos']) ? explode("\n", trim($anuncio['itens_inclusos'])) : [];
 $nao_inclusos_array = !empty($anuncio['itens_nao_inclusos']) ? explode("\n", trim($anuncio['itens_nao_inclusos'])) : [];
 
-// Imagem padrão caso não tenha feito upload
 $foto_capa = $anuncio['imagem_capa'] ? $anuncio['imagem_capa'] : 'assets/img/hero-bg.jpg';
+$is_owner = (isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $anuncio['prestador_id']);
 
 include 'includes/header.php';
 ?>
@@ -102,8 +103,8 @@ include 'includes/header.php';
     </div>
 
     <?php if ($mensagem): ?>
-        <div style="background: #ecfdf5; color: #065f46; padding: 12px; border-radius: 6px; margin-bottom: 20px;">
-            <?= $mensagem ?>
+        <div style="background: #ecfdf5; color: #065f46; padding: 12px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #a7f3d0;">
+            <?= htmlspecialchars($mensagem) ?>
         </div>
     <?php endif; ?>
 
@@ -118,7 +119,7 @@ include 'includes/header.php';
             </div>
 
             <!-- Título e Subtítulo -->
-            <h1 style="font-size: 2rem; margin-bottom: 8px; color: var(--primary-color);">
+            <h1 style="font-size: 2rem; margin-bottom: 8px;">
                 <?= htmlspecialchars($anuncio['titulo']) ?>
             </h1>
             <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 25px;">
@@ -133,7 +134,7 @@ include 'includes/header.php';
             <!-- Seção: Sobre este Serviço -->
             <div style="margin-bottom: 40px;">
                 <h2 class="gn-section-title">Sobre este serviço</h2>
-                <p style="line-height: 1.8; color: #475569; font-size: 1rem;"><?= htmlspecialchars($anuncio['descricao']) ?></p>
+                <p style="line-height: 1.8; font-size: 1rem;"><?= nl2br(htmlspecialchars($anuncio['descricao'])) ?></p>
 
                 <!-- Tags / Selos -->
                 <div class="gn-tags-container">
@@ -185,11 +186,11 @@ include 'includes/header.php';
             <!-- Card de Prévia do Prestador -->
             <div style="background: #fff; border: 1px solid var(--border-color); padding: 25px; border-radius: 16px; margin-top: 40px;">
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 65px; height: 65px; border-radius: 50%; overflow: hidden; background: #e2e8f0;">
+                    <div style="width: 65px; height: 65px; border-radius: 50%; overflow: hidden; background: #e2e8f0; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                         <?php if ($anuncio['prestador_foto']): ?>
                             <img src="<?= htmlspecialchars($anuncio['prestador_foto']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
                         <?php else: ?>
-                            <i class="fas fa-user" style="font-size: 2rem; color: #94a3b8; margin: 15px;"></i>
+                            <i class="fas fa-user" style="font-size: 2rem; color: #94a3b8;"></i>
                         <?php endif; ?>
                     </div>
                     <div>
@@ -207,25 +208,53 @@ include 'includes/header.php';
             <!-- Perguntas e Respostas -->
             <div style="background: #fff; border: 1px solid var(--border-color); padding: 25px; border-radius: 16px; margin-top: 30px;">
                 <h3>Perguntas ao Profissional</h3>
-                <?php if (isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] != $anuncio['prestador_id']): ?>
+                
+                <!-- Formulário de Pergunta (visível para clientes logados que não são donos do anúncio) -->
+                <?php if (isset($_SESSION['usuario_id']) && !$is_owner): ?>
                     <form action="anuncio.php?id=<?= $id ?>" method="POST" style="margin: 15px 0;">
                         <input type="hidden" name="acao_pergunta" value="1">
-                        <textarea name="pergunta" rows="2" placeholder="Escreva sua dúvida..." required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;"></textarea>
-                        <button type="submit" class="btn-submit" style="width: auto; padding: 6px 16px; margin-top: 8px;">Enviar Pergunta</button>
+                        <textarea name="pergunta" rows="2" placeholder="Escreva sua dúvida sobre o serviço..." required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem;"></textarea>
+                        <button type="submit" class="btn-submit" style="width: auto; padding: 8px 18px; margin-top: 8px;">Enviar Pergunta</button>
                     </form>
+                <?php elseif (!isset($_SESSION['usuario_id'])): ?>
+                    <p style="font-size: 0.9rem; margin: 15px 0; color: #64748b;">
+                        <a href="login.php" style="color: var(--accent-color); font-weight: 600;">Faça login</a> para fazer uma pergunta ao profissional.
+                    </p>
                 <?php endif; ?>
 
-                <div style="margin-top: 15px;">
+                <div style="margin-top: 20px;">
                     <?php if (empty($perguntas)): ?>
                         <p style="color: #64748b; font-size: 0.9rem;">Nenhuma pergunta feita ainda.</p>
                     <?php else: ?>
                         <?php foreach ($perguntas as $pq): ?>
-                            <div style="border-bottom: 1px solid var(--border-color); padding: 10px 0;">
-                                <p style="font-size: 0.9rem;"><strong><?= htmlspecialchars($pq['cliente']) ?>:</strong> <?= htmlspecialchars($pq['pergunta']) ?></p>
-                                <?php if ($pq['resposta_profissional']): ?>
-                                    <p style="background: #f8fafc; padding: 8px; border-left: 3px solid var(--accent-color); font-size: 0.85rem; margin-top: 5px;">
-                                        <strong>Resposta:</strong> <?= htmlspecialchars($pq['resposta_profissional']) ?>
-                                    </p>
+                            <div style="border-bottom: 1px solid var(--border-color); padding: 15px 0;">
+                                <p style="font-size: 0.95rem; margin-bottom: 6px;">
+                                    <strong><?= htmlspecialchars($pq['cliente']) ?>:</strong> <?= htmlspecialchars($pq['pergunta']) ?>
+                                    <span style="font-size: 0.75rem; color: #94a3b8; margin-left: 8px;">(<?= date('d/m/Y', strtotime($pq['data_pergunta'])) ?>)</span>
+                                </p>
+
+                                <!-- Resposta já existente -->
+                                <?php if (!empty($pq['resposta_profissional'])): ?>
+                                    <div style="background: rgba(16, 185, 129, 0.08); border-left: 3px solid var(--accent-color); padding: 10px 14px; border-radius: 4px; font-size: 0.9rem; margin-top: 8px;">
+                                        <p style="margin: 0;"><strong>Resposta do profissional:</strong> <?= htmlspecialchars($pq['resposta_profissional']) ?></p>
+                                        <?php if (!empty($pq['data_resposta'])): ?>
+                                            <span style="font-size: 0.75rem; color: #94a3b8; display: block; margin-top: 4px;">
+                                                Respondido em <?= date('d/m/Y \à\s H:i', strtotime($pq['data_resposta'])) ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <!-- Formulário de Resposta para o Prestador Dono do Anúncio -->
+                                <?php if ($is_owner && empty($pq['resposta_profissional'])): ?>
+                                    <form action="anuncio.php?id=<?= $id ?>" method="POST" style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+                                        <input type="hidden" name="acao_resposta" value="1">
+                                        <input type="hidden" name="pergunta_id" value="<?= $pq['id'] ?>">
+                                        <input type="text" name="resposta" placeholder="Responder esta pergunta..." required style="flex: 1; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem;">
+                                        <button type="submit" class="btn-submit" style="width: auto; padding: 8px 18px; font-size: 0.88rem; white-space: nowrap;">
+                                            <i class="fas fa-reply"></i> Responder
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
