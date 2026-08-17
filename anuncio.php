@@ -88,14 +88,14 @@ $whatsapp_num = preg_replace('/[^0-9]/', '', $anuncio['telefone_contato']);
 $inclusos_array = !empty($anuncio['itens_inclusos']) ? explode("\n", trim($anuncio['itens_inclusos'])) : [];
 $nao_inclusos_array = !empty($anuncio['itens_nao_inclusos']) ? explode("\n", trim($anuncio['itens_nao_inclusos'])) : [];
 
-$foto_capa = $anuncio['imagem_capa'] ? $anuncio['imagem_capa'] : 'assets/img/hero-bg.jpg';
+// Linha alterada para usar o Helper centralizado
+$foto_capa = obterImagemAnuncio($anuncio['imagem_capa'], $anuncio['subcategoria_id']);
 $is_owner = (isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $anuncio['prestador_id']);
 
 include 'includes/header.php';
 ?>
 
 <main class="container" style="padding-top: 25px; padding-bottom: 50px;">
-    <!-- Breadcrumbs -->
     <div class="breadcrumb">
         <a href="index.php"><i class="fas fa-home"></i> Início</a> &gt; 
         <a href="busca.php?q=">Busca</a> &gt; 
@@ -108,17 +108,13 @@ include 'includes/header.php';
         </div>
     <?php endif; ?>
 
-    <!-- LAYOUT PRINCIPAL (GRID ESTILO GETNINJAS) -->
     <div class="gn-detail-grid">
         
-        <!-- COLUNA ESQUERDA (IMAGEM + DETALHES DO SERVIÇO) -->
         <div>
-            <!-- Imagem Grande de Capa -->
             <div class="gn-cover-box">
                 <img src="<?= htmlspecialchars($foto_capa) ?>" alt="Capa do Serviço">
             </div>
 
-            <!-- Título e Subtítulo -->
             <h1 style="font-size: 2rem; margin-bottom: 8px;">
                 <?= htmlspecialchars($anuncio['titulo']) ?>
             </h1>
@@ -131,12 +127,10 @@ include 'includes/header.php';
 
             <hr style="border: none; border-top: 1px solid var(--border-color); margin-bottom: 30px;">
 
-            <!-- Seção: Sobre este Serviço -->
             <div style="margin-bottom: 40px;">
                 <h2 class="gn-section-title">Sobre este serviço</h2>
                 <p style="line-height: 1.8; font-size: 1rem;"><?= nl2br(htmlspecialchars($anuncio['descricao'])) ?></p>
 
-                <!-- Tags / Selos -->
                 <div class="gn-tags-container">
                     <span class="gn-tag"><?= htmlspecialchars($anuncio['categoria_nome']) ?></span>
                     <span class="gn-tag"><?= htmlspecialchars($anuncio['subcategoria']) ?></span>
@@ -147,7 +141,6 @@ include 'includes/header.php';
 
             <hr style="border: none; border-top: 1px solid var(--border-color); margin-bottom: 30px;">
 
-            <!-- Seção: O que está incluso -->
             <?php if (!empty($inclusos_array)): ?>
                 <div style="margin-bottom: 35px;">
                     <h2 class="gn-section-title">O que está incluso</h2>
@@ -161,7 +154,6 @@ include 'includes/header.php';
                 </div>
             <?php endif; ?>
 
-            <!-- Seção: O que NÃO está incluso -->
             <?php if (!empty($nao_inclusos_array)): ?>
                 <div style="margin-bottom: 30px;">
                     <h2 class="gn-section-title">O que não está incluso</h2>
@@ -175,7 +167,6 @@ include 'includes/header.php';
                 </div>
             <?php endif; ?>
 
-            <!-- Caixa de Aviso sobre Peças -->
             <div class="gn-notice-box">
                 <div class="gn-notice-icon">!</div>
                 <div>
@@ -183,7 +174,6 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <!-- Card de Prévia do Prestador -->
             <div style="background: #fff; border: 1px solid var(--border-color); padding: 25px; border-radius: 16px; margin-top: 40px;">
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <div style="width: 65px; height: 65px; border-radius: 50%; overflow: hidden; background: #e2e8f0; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
@@ -205,11 +195,9 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <!-- Perguntas e Respostas -->
             <div style="background: #fff; border: 1px solid var(--border-color); padding: 25px; border-radius: 16px; margin-top: 30px;">
                 <h3>Perguntas ao Profissional</h3>
                 
-                <!-- Formulário de Pergunta (visível para clientes logados que não são donos do anúncio) -->
                 <?php if (isset($_SESSION['usuario_id']) && !$is_owner): ?>
                     <form action="anuncio.php?id=<?= $id ?>" method="POST" style="margin: 15px 0;">
                         <input type="hidden" name="acao_pergunta" value="1">
@@ -233,7 +221,6 @@ include 'includes/header.php';
                                     <span style="font-size: 0.75rem; color: #94a3b8; margin-left: 8px;">(<?= date('d/m/Y', strtotime($pq['data_pergunta'])) ?>)</span>
                                 </p>
 
-                                <!-- Resposta já existente -->
                                 <?php if (!empty($pq['resposta_profissional'])): ?>
                                     <div style="background: rgba(16, 185, 129, 0.08); border-left: 3px solid var(--accent-color); padding: 10px 14px; border-radius: 4px; font-size: 0.9rem; margin-top: 8px;">
                                         <p style="margin: 0;"><strong>Resposta do profissional:</strong> <?= htmlspecialchars($pq['resposta_profissional']) ?></p>
@@ -245,7 +232,6 @@ include 'includes/header.php';
                                     </div>
                                 <?php endif; ?>
 
-                                <!-- Formulário de Resposta para o Prestador Dono do Anúncio -->
                                 <?php if ($is_owner && empty($pq['resposta_profissional'])): ?>
                                     <form action="anuncio.php?id=<?= $id ?>" method="POST" style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
                                         <input type="hidden" name="acao_resposta" value="1">
@@ -264,7 +250,6 @@ include 'includes/header.php';
 
         </div>
 
-        <!-- COLUNA DIREITA (CARD FIXO DE PREÇO E CONTRATAÇÃO) -->
         <aside>
             <div class="gn-price-card">
                 <p style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Preço do Serviço</p>

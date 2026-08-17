@@ -39,7 +39,7 @@ include 'includes/header.php';
         </div>
         <div>
             <h1><?= htmlspecialchars($categoria['nome']) ?></h1>
-            <p style="color: #64748b;"><?= count($anuncios) ?> serviço(s) disponível(is) nesta categoria</p>
+            <p style="color: #64748b;"><?= count($anuncios) ?> service(s) disponível(is) nesta categoria</p>
         </div>
     </div>
 
@@ -51,38 +51,42 @@ include 'includes/header.php';
     <?php else: ?>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
             <?php foreach ($anuncios as $anuncio): ?>
-                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="background: #ecfdf5; color: var(--accent-color); font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 4px;">
-                                <?= htmlspecialchars($anuncio['subcategoria']) ?>
-                            </span>
-                            <span style="color: #f59e0b; font-size: 0.85rem; font-weight: 700;">
-                                ★ <?= $anuncio['media_notas'] > 0 ? round($anuncio['media_notas'], 1) : 'Novo' ?>
-                            </span>
+                <div class="card-service">
+                    <div class="card-service-img">
+                        <img src="<?= htmlspecialchars(obterImagemAnuncio($anuncio['imagem_capa'], $anuncio['subcategoria_id'])) ?>" alt="<?= htmlspecialchars($anuncio['titulo']) ?>">
+                    </div>
+                    <div class="card-service-body">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span style="background: #ecfdf5; color: var(--accent-color); font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 4px;">
+                                    <?= htmlspecialchars($anuncio['subcategoria']) ?>
+                                </span>
+                                <span style="color: #f59e0b; font-size: 0.85rem; font-weight: 700;">
+                                    ★ <?= $anuncio['media_notas'] > 0 ? round($anuncio['media_notas'], 1) : 'Novo' ?>
+                                </span>
+                            </div>
+
+                            <h3 style="margin: 8px 0; font-size: 1.1rem; color: var(--primary-color);">
+                                <?= htmlspecialchars($anuncio['titulo']) ?>
+                            </h3>
+
+                            <p style="color: #ef4444; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">
+                                <i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($anuncio['bairro'] ? $anuncio['bairro'] . ', ' : '') ?><?= htmlspecialchars($anuncio['cidade']) ?>/<?= htmlspecialchars($anuncio['estado']) ?>
+                            </p>
+
+                            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 12px;">
+                                Por: <a href="perfil_publico.php?id=<?= $anuncio['prestador_id'] ?>" style="color: var(--primary-color); font-weight: 700; text-decoration: underline;"><?= htmlspecialchars($anuncio['prestador']) ?></a>
+                            </p>
+
+                            <?php if ($anuncio['preco_medio']): ?>
+                                <p style="font-weight: 700; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">
+                                    R$ <?= number_format($anuncio['preco_medio'], 2, ',', '.') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
-                        <h3 style="margin: 8px 0; font-size: 1.1rem; color: var(--primary-color);">
-                            <?= htmlspecialchars($anuncio['titulo']) ?>
-                        </h3>
-
-                        <!-- Localização do Anúncio -->
-                        <p style="color: #ef4444; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">
-                            <i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($anuncio['bairro'] ? $anuncio['bairro'] . ', ' : '') ?><?= htmlspecialchars($anuncio['cidade']) ?>/<?= htmlspecialchars($anuncio['estado']) ?>
-                        </p>
-
-                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 12px;">
-                            Por: <a href="perfil_publico.php?id=<?= $anuncio['prestador_id'] ?>" style="color: var(--primary-color); font-weight: 700; text-decoration: underline;"><?= htmlspecialchars($anuncio['prestador']) ?></a>
-                        </p>
-
-                        <?php if ($anuncio['preco_medio']): ?>
-                            <p style="font-weight: 700; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">
-                                R$ <?= number_format($anuncio['preco_medio'], 2, ',', '.') ?>
-                            </p>
-                        <?php endif; ?>
+                        <a href="anuncio.php?id=<?= $anuncio['id'] ?>" class="btn-submit" style="display: block; text-align: center; text-decoration: none;">Ver Detalhes</a>
                     </div>
-
-                    <a href="anuncio.php?id=<?= $anuncio['id'] ?>" class="btn-submit" style="display: block; text-align: center; text-decoration: none;">Ver Detalhes</a>
                 </div>
             <?php endforeach; ?>
         </div>

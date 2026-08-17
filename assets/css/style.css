@@ -820,3 +820,57 @@ html.dark-mode .site-footer {
         display: none;
     }
 }
+
+/* Card de Anúncio com Foto no Topo */
+.card-service {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.card-service:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    border-color: var(--accent-color);
+}
+
+.card-service-img {
+    width: 100%;
+    height: 160px;
+    background-color: #e2e8f0;
+    overflow: hidden;
+}
+
+.card-service-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.card-service:hover .card-service-img img {
+    transform: scale(1.04);
+}
+
+.card-service-body {
+    padding: 16px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+}
+
+html.dark-mode .card-service {
+    background-color: #111827 !important;
+    border-color: #1e293b !important;
+}
+
+html.dark-mode .card-service:hover {
+    border-color: var(--accent-color) !important;
+}

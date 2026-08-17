@@ -73,7 +73,6 @@ include 'includes/header.php';
     <p style="color: #64748b; margin-bottom: 10px;"><?= count($anuncios) ?> serviço(s) encontrado(s)</p>
 
     <div class="search-layout">
-        <!-- BARRA LATERAL DE FILTROS -->
         <aside class="filter-sidebar">
             <h3 style="font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
                 <i class="fas fa-filter" style="color: var(--accent-color);"></i> Filtrar Serviços
@@ -82,7 +81,6 @@ include 'includes/header.php';
             <form action="busca.php" method="GET">
                 <input type="hidden" name="q" value="<?= htmlspecialchars($q) ?>">
 
-                <!-- Ordenação -->
                 <div class="filter-group">
                     <label for="ordem">Ordenar por:</label>
                     <select name="ordem" id="ordem" onchange="this.form.submit()">
@@ -93,7 +91,6 @@ include 'includes/header.php';
                     </select>
                 </div>
 
-                <!-- Subcategoria -->
                 <div class="filter-group">
                     <label for="subcategoria">Categoria:</label>
                     <select name="subcategoria" id="subcategoria" onchange="this.form.submit()">
@@ -106,13 +103,11 @@ include 'includes/header.php';
                     </select>
                 </div>
 
-                <!-- Filtro de Cidade -->
                 <div class="filter-group">
                     <label for="cidade">Cidade:</label>
                     <input type="text" id="cidade" name="cidade" placeholder="Ex: Belo Horizonte" value="<?= htmlspecialchars($cidade_f) ?>">
                 </div>
 
-                <!-- Faixa de Preço -->
                 <div class="filter-group">
                     <label>Preço Médio (R$):</label>
                     <div class="filter-price-range">
@@ -127,7 +122,6 @@ include 'includes/header.php';
             </form>
         </aside>
 
-        <!-- LISTAGEM DOS RESULTADOS -->
         <section>
             <?php if (empty($anuncios)): ?>
                 <div style="background: #fff; padding: 40px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;">
@@ -137,38 +131,42 @@ include 'includes/header.php';
             <?php else: ?>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
                     <?php foreach ($anuncios as $anuncio): ?>
-                        <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
-                            <div>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                    <span style="background: #ecfdf5; color: var(--accent-color); font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 4px;">
-                                        <?= htmlspecialchars($anuncio['subcategoria']) ?>
-                                    </span>
-                                    <span style="color: #f59e0b; font-size: 0.85rem; font-weight: 700;">
-                                        ★ <?= $anuncio['media_notas'] > 0 ? round($anuncio['media_notas'], 1) : 'Novo' ?>
-                                    </span>
+                        <div class="card-service">
+                            <div class="card-service-img">
+                                <img src="<?= htmlspecialchars(obterImagemAnuncio($anuncio['imagem_capa'], $anuncio['subcategoria_id'])) ?>" alt="<?= htmlspecialchars($anuncio['titulo']) ?>">
+                            </div>
+                            <div class="card-service-body">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                        <span style="background: #ecfdf5; color: var(--accent-color); font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 4px;">
+                                            <?= htmlspecialchars($anuncio['subcategoria']) ?>
+                                        </span>
+                                        <span style="color: #f59e0b; font-size: 0.85rem; font-weight: 700;">
+                                            ★ <?= $anuncio['media_notas'] > 0 ? round($anuncio['media_notas'], 1) : 'Novo' ?>
+                                        </span>
+                                    </div>
+
+                                    <h3 style="margin: 8px 0; font-size: 1.1rem; color: var(--primary-color);">
+                                        <?= htmlspecialchars($anuncio['titulo']) ?>
+                                    </h3>
+
+                                    <p style="color: #ef4444; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">
+                                        <i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($anuncio['bairro'] ? $anuncio['bairro'] . ', ' : '') ?><?= htmlspecialchars($anuncio['cidade']) ?>/<?= htmlspecialchars($anuncio['estado']) ?>
+                                    </p>
+
+                                    <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 12px;">
+                                        Por: <a href="perfil_publico.php?id=<?= $anuncio['prestador_id'] ?>" style="color: var(--primary-color); font-weight: 700; text-decoration: underline;"><?= htmlspecialchars($anuncio['prestador']) ?></a>
+                                    </p>
+
+                                    <?php if ($anuncio['preco_medio']): ?>
+                                        <p style="font-weight: 700; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">
+                                            R$ <?= number_format($anuncio['preco_medio'], 2, ',', '.') ?>
+                                        </p>
+                                    <?php endif; ?>
                                 </div>
 
-                                <h3 style="margin: 8px 0; font-size: 1.1rem; color: var(--primary-color);">
-                                    <?= htmlspecialchars($anuncio['titulo']) ?>
-                                </h3>
-
-                                <!-- Localização -->
-                                <p style="color: #ef4444; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">
-                                    <i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($anuncio['bairro'] ? $anuncio['bairro'] . ', ' : '') ?><?= htmlspecialchars($anuncio['cidade']) ?>/<?= htmlspecialchars($anuncio['estado']) ?>
-                                </p>
-
-                                <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 12px;">
-                                    Por: <a href="perfil_publico.php?id=<?= $anuncio['prestador_id'] ?>" style="color: var(--primary-color); font-weight: 700; text-decoration: underline;"><?= htmlspecialchars($anuncio['prestador']) ?></a>
-                                </p>
-
-                                <?php if ($anuncio['preco_medio']): ?>
-                                    <p style="font-weight: 700; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">
-                                        R$ <?= number_format($anuncio['preco_medio'], 2, ',', '.') ?>
-                                    </p>
-                                <?php endif; ?>
+                                <a href="anuncio.php?id=<?= $anuncio['id'] ?>" class="btn-submit" style="display: block; text-align: center; text-decoration: none;">Ver Detalhes</a>
                             </div>
-
-                            <a href="anuncio.php?id=<?= $anuncio['id'] ?>" class="btn-submit" style="display: block; text-align: center; text-decoration: none;">Ver Detalhes</a>
                         </div>
                     <?php endforeach; ?>
                 </div>
