@@ -369,43 +369,23 @@ body {
 }
 
 /* ===================================================
-   ESTILOS DO MODO NOTURNO (DARK MODE)
+   ESTILOS DO MODO NOTURNO (DARK MODE) - ATUALIZADO
    =================================================== */
 
-/* Botão do Tema no Cabeçalho */
-.btn-theme-toggle {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--primary-color);
-    padding: 8px 12px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.btn-theme-toggle:hover {
-    background: #f1f5f9;
-    transform: scale(1.05);
-}
-
-/* Regras de Cores Escuras */
-html.dark-mode {
-    background-color: #0f172a;
-    color: #f8fafc;
-}
-
+/* Fundo Geral e Estrutura */
+html.dark-mode,
 html.dark-mode body {
-    background-color: #0f172a;
+    background-color: #0b1120;
     color: #f8fafc;
 }
 
 html.dark-mode .navbar {
-    background-color: #1e293b;
-    border-bottom: 1px solid #334155;
+    background-color: #0f172a;
+    border-bottom: 1px solid #1e293b;
+}
+
+html.dark-mode .logo {
+    color: #ffffff;
 }
 
 html.dark-mode .nav-links a {
@@ -413,47 +393,89 @@ html.dark-mode .nav-links a {
 }
 
 html.dark-mode .btn-login {
-    border-color: #475569;
+    border-color: #334155;
     color: #f8fafc;
 }
 
 html.dark-mode .btn-theme-toggle {
-    border-color: #475569;
+    border-color: #334155;
     color: #f59e0b;
 }
 
 html.dark-mode .btn-theme-toggle:hover {
-    background: #334155;
+    background: #1e293b;
 }
 
-/* Cards e Paineis no Modo Escuro */
-html.dark-mode .form-card,
-html.dark-mode .filter-sidebar,
-html.dark-mode div[style*="background: #fff"],
-html.dark-mode div[style*="background:#fff"],
-html.dark-mode div[style*="background: #ffffff"] {
-    background-color: #1e293b !important;
-    border-color: #334155 !important;
-    color: #f8fafc;
+/* 1. Correção das Barras de Busca (Header e Hero) */
+html.dark-mode .search-box,
+html.dark-mode .header-search {
+    background-color: #0f172a !important;
+    border: 1px solid #334155 !important;
 }
 
-/* Textos Secundários e Títulos */
-html.dark-mode h1, 
-html.dark-mode h2, 
-html.dark-mode h3, 
-html.dark-mode h4 {
+html.dark-mode .search-box input,
+html.dark-mode .header-search input {
+    background: transparent !important;
     color: #f8fafc !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
-html.dark-mode p[style*="color: #64748b"],
-html.dark-mode span[style*="color: #64748b"],
-html.dark-mode p,
-html.dark-mode label {
+html.dark-mode .search-box input::placeholder,
+html.dark-mode .header-search input::placeholder {
     color: #94a3b8 !important;
 }
 
-/* Inputs, Selects e Textareas */
-html.dark-mode input[type="text"],
+/* 2. Cards, Modais e Painéis */
+html.dark-mode .form-card,
+html.dark-mode .filter-sidebar,
+html.dark-mode .gn-price-card,
+html.dark-mode div[style*="background: #fff"],
+html.dark-mode div[style*="background:#fff"],
+html.dark-mode div[style*="background: #ffffff"] {
+    background-color: #111827 !important;
+    border-color: #1e293b !important;
+    color: #f8fafc;
+}
+
+/* 3. Títulos, Textos e Preços */
+html.dark-mode h1, 
+html.dark-mode h2, 
+html.dark-mode h3, 
+html.dark-mode h4,
+html.dark-mode .gn-section-title {
+    color: #f8fafc !important;
+}
+
+/* Preço em destaque */
+html.dark-mode .gn-price-amount,
+html.dark-mode p[style*="color: var(--primary-color)"] {
+    color: #34d399 !important; /* Verde esmeralda claro para contraste */
+}
+
+/* Links para o perfil do prestador */
+html.dark-mode a[style*="color: var(--primary-color)"],
+html.dark-mode a[style*="color:var(--primary-color)"] {
+    color: #38bdf8 !important; /* Azul ciano com boa leitura */
+}
+
+/* Textos secundários e Breadcrumb */
+html.dark-mode p[style*="color: #64748b"],
+html.dark-mode span[style*="color: #64748b"],
+html.dark-mode p[style*="color: #475569"],
+html.dark-mode p,
+html.dark-mode label,
+html.dark-mode .breadcrumb,
+html.dark-mode .breadcrumb a {
+    color: #94a3b8 !important;
+}
+
+html.dark-mode .breadcrumb span {
+    color: #f8fafc !important;
+}
+
+/* 4. Formulários e Inputs */
+html.dark-mode input[type="text"]:not(.search-box input),
 html.dark-mode input[type="email"],
 html.dark-mode input[type="password"],
 html.dark-mode input[type="number"],
@@ -464,10 +486,14 @@ html.dark-mode textarea {
     color: #f8fafc !important;
 }
 
-/* Ajustes em Categorias e Cards */
+/* 5. Categorias na Home */
 html.dark-mode .card-category {
-    background-color: #1e293b;
-    border-color: #334155;
+    background-color: #111827;
+    border-color: #1e293b;
+    color: #f8fafc;
+}
+
+html.dark-mode .card-category span {
     color: #f8fafc;
 }
 
@@ -475,216 +501,61 @@ html.dark-mode .card-category:hover {
     border-color: var(--accent-color);
 }
 
-/* Dropdown de Sugestões de Busca */
+html.dark-mode .icon-circle {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+}
+
+/* 6. Dropdown de Sugestões de Busca */
 html.dark-mode .search-suggestions-dropdown {
-    background-color: #1e293b;
+    background-color: #0f172a;
     border-color: #334155;
 }
 
 html.dark-mode .suggestion-item {
-    border-bottom-color: #334155;
+    border-bottom-color: #1e293b;
     color: #f8fafc;
 }
 
 html.dark-mode .suggestion-item:hover {
-    background-color: #334155;
+    background-color: #1e293b;
 }
 
-/* Rodapé */
-html.dark-mode footer {
-    background-color: #0f172a;
-    border-top: 1px solid #1e293b;
-    color: #64748b;
+html.dark-mode .sugg-title {
+    color: #f8fafc;
 }
 
-/* ===================================================
-   ESTILOS GETNINJAS - CABEÇALHO E ANÚNCIO
-   =================================================== */
-
-/* Busca Compacta no Cabeçalho */
-.header-search {
-    max-width: 380px !important;
-    margin: 0 15px !important;
-    border-radius: 20px !important;
-    border: 1px solid var(--border-color) !important;
-    background: #f8fafc;
-}
-
-.header-search input {
-    padding: 8px 12px !important;
-    font-size: 0.85rem !important;
-}
-
-.header-search button {
-    display: none; /* Busca em tempo real e no Enter */
-}
-
-/* Breadcrumbs */
-.breadcrumb {
-    font-size: 0.85rem;
-    color: #64748b;
-    margin-bottom: 20px;
-}
-.breadcrumb a {
-    color: #64748b;
-    text-decoration: none;
-}
-.breadcrumb a:hover {
-    color: var(--accent-color);
-}
-
-/* Layout Principal de Anúncio Estilo GetNinjas */
-.gn-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 35px;
-    margin-bottom: 50px;
-}
-
-/* Imagem Grande do Serviço */
-.gn-cover-box {
-    width: 100%;
-    height: 420px;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #e2e8f0;
-    margin-bottom: 25px;
-}
-.gn-cover-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Card Fixo de Preço / Contratação (Lado Direito) */
-.gn-price-card {
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 25px;
-    position: sticky;
-    top: 90px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    height: fit-content;
-}
-
-.gn-price-amount {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    margin: 15px 0 20px;
-}
-
-.btn-gn-contract {
-    display: block;
-    width: 100%;
-    background: #0f172a;
-    color: #ffffff;
-    text-align: center;
-    padding: 14px;
-    border-radius: 25px;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: background 0.2s;
-}
-.btn-gn-contract:hover {
-    background: var(--accent-color);
-}
-
-/* Tags / Pills abaixo de Sobre este serviço */
-.gn-tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 15px;
-}
-.gn-tag {
-    background: #f1f5f9;
-    color: #475569;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 20px;
-}
-
-/* Listas de O que está incluso e O que não está incluso */
-.gn-section-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 15px;
-    color: var(--primary-color);
-}
-
-.gn-bullet-list {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 30px;
-}
-.gn-bullet-list li {
-    position: relative;
-    padding-left: 24px;
-    margin-bottom: 12px;
-    color: #475569;
-    line-height: 1.6;
-    font-size: 0.95rem;
-}
-.gn-bullet-list li::before {
-    content: "•";
-    position: absolute;
-    left: 8px;
-    color: #94a3b8;
-    font-size: 1.2rem;
-}
-
-/* Caixa de Aviso (Notice Box) */
-.gn-notice-box {
-    background: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: 25px;
-    font-size: 0.9rem;
-    color: #475569;
-}
-.gn-notice-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1px solid #cbd5e1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
-/* Ajustes para o Modo Noturno no GetNinjas layout */
-html.dark-mode .gn-price-card {
-    background: #1e293b !important;
-    border-color: #334155 !important;
-}
+/* 7. Tags, Listas e Avisos (GetNinjas) */
 html.dark-mode .gn-tag {
-    background: #334155;
+    background: #1e293b;
     color: #cbd5e1;
 }
+
 html.dark-mode .gn-bullet-list li {
     color: #cbd5e1;
 }
+
 html.dark-mode .gn-notice-box {
     background: #0f172a;
-    border-color: #334155;
+    border-color: #1e293b;
     color: #cbd5e1;
 }
-html.dark-mode .btn-gn-contract {
-    background: var(--accent-color);
+
+html.dark-mode .gn-notice-icon {
+    border-color: #475569;
+    color: #f59e0b;
 }
 
-@media (max-width: 900px) {
-    .gn-detail-grid {
-        grid-template-columns: 1fr;
-    }
+/* Linhas divisórias */
+html.dark-mode hr,
+html.dark-mode div[style*="border-bottom: 1px solid var(--border-color)"] {
+    border-color: #1e293b !important;
+}
+
+/* Rodapé */
+html.dark-mode footer,
+html.dark-mode .site-footer {
+    background-color: #0f172a;
+    border-top: 1px solid #1e293b;
+    color: #64748b;
 }
