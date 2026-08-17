@@ -1,12 +1,17 @@
-/* Configurações Globais e Variáveis de Cor */
+/* ===================================================
+   1. VARIÁVEIS GLOBAIS E RESET
+   =================================================== */
 :root {
-    --primary-color: #0f172a;      /* Azul escuro moderno */
-    --accent-color: #10b981;       /* Verde esmeralda (Ação / Destaque) */
+    --primary-color: #0f172a;       /* Azul escuro corporativo */
+    --accent-color: #10b981;        /* Verde esmeralda */
     --accent-hover: #059669;
     --text-color: #334155;
     --light-bg: #f8fafc;
     --white: #ffffff;
     --border-color: #e2e8f0;
+    --card-bg: #ffffff;
+    --whatsapp-green: #25d366;
+    --whatsapp-hover: #1eb954;
 }
 
 * {
@@ -20,38 +25,51 @@ body {
     background-color: var(--light-bg);
     color: var(--text-color);
     line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
 }
 
-/* Header & Navegação */
+main.container {
+    flex: 1;
+}
+
+/* ===================================================
+   2. HEADER & NAVEGAÇÃO
+   =================================================== */
 .navbar {
     background-color: var(--white);
     border-bottom: 1px solid var(--border-color);
-    padding: 15px 0;
+    padding: 12px 0;
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: background-color 0.2s, border-color 0.2s;
 }
 
 .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 15px;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--primary-color);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
 }
 
 .logo i {
@@ -60,7 +78,7 @@ body {
 
 .nav-links {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
 }
 
@@ -68,197 +86,121 @@ body {
     text-decoration: none;
     color: var(--text-color);
     font-weight: 500;
+    font-size: 0.95rem;
     transition: color 0.2s;
 }
 
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
 .btn-anunciar {
-    background-color: var(--accent-color);
+    background-color: var(--accent-color) !important;
     color: var(--white) !important;
     padding: 8px 16px;
     border-radius: 6px;
-    transition: background 0.2s !important;
+    font-weight: 600;
+    transition: background-color 0.2s !important;
 }
 
 .btn-anunciar:hover {
-    background-color: var(--accent-hover);
+    background-color: var(--accent-hover) !important;
 }
 
 .btn-login {
     border: 1px solid var(--border-color);
-    padding: 8px 16px;
+    padding: 7px 14px;
     border-radius: 6px;
 }
 
-.hero-section {
-    /* Gradiente verde/escuro transparente sobreposto à foto do profissional */
-    background: linear-gradient(90deg, rgba(15, 23, 42, 0.92) 0%, rgba(16, 185, 129, 0.55) 100%), 
-                url('../img/hero-bg.jpg') center/cover no-repeat;
-    color: var(--white);
-    padding: 85px 0;
-    text-align: center;
+/* Botão Alternador de Tema (Dark Mode) */
+.btn-theme-toggle {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
-.hero-content h1 {
-    font-size: 2.2rem;
-    margin-bottom: 10px;
+.btn-theme-toggle:hover {
+    background: #f1f5f9;
+    transform: scale(1.05);
 }
 
-.hero-content p {
-    color: #94a3b8;
-    margin-bottom: 30px;
-}
-
+/* ===================================================
+   3. BARRAS DE PESQUISA (HERO & HEADER)
+   =================================================== */
 .search-box {
     display: flex;
     max-width: 600px;
     margin: 0 auto;
     background: var(--white);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     overflow: hidden;
-    padding: 5px;
+    padding: 4px;
     align-items: center;
+    position: relative;
 }
 
 .search-icon {
     color: #94a3b8;
-    padding: 0 15px;
+    padding: 0 12px;
 }
 
 .search-box input {
     border: none;
     outline: none;
     flex: 1;
-    padding: 12px 0;
-    font-size: 1rem;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    background: transparent;
+    color: var(--text-color);
 }
 
 .search-box button {
     background-color: var(--accent-color);
     color: var(--white);
     border: none;
-    padding: 12px 25px;
+    padding: 10px 22px;
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background-color 0.2s;
 }
 
 .search-box button:hover {
     background-color: var(--accent-hover);
 }
 
-/* Matriz de Categorias */
-.categories-section {
-    padding: 50px 20px;
-}
-
-.grid-categories {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.card-category {
-    background: var(--white);
+/* Barra de Pesquisa Compacta do Header */
+.header-search {
+    max-width: 360px !important;
+    margin: 0 10px !important;
+    border-radius: 25px !important;
+    background: #f1f5f9;
     border: 1px solid var(--border-color);
-    padding: 25px;
-    border-radius: 10px;
-    text-align: center;
-    text-decoration: none;
-    color: var(--text-color);
-    font-weight: 600;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
 }
 
-.card-category:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    border-color: var(--accent-color);
+.header-search input {
+    padding: 7px 10px !important;
+    font-size: 0.88rem !important;
 }
 
-.icon-circle {
-    width: 60px;
-    height: 60px;
-    background-color: #ecfdf5;
-    color: var(--accent-color);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
+.header-search button {
+    display: none;
 }
 
-/* Formulários (Login / Cadastro) */
-.form-card {
-    max-width: 450px;
-    margin: 50px auto;
-    background: var(--white);
-    padding: 30px;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    outline: none;
-}
-
-.form-group input:focus {
-    border-color: var(--accent-color);
-}
-
-.btn-submit {
-    width: 100%;
-    background-color: var(--accent-color);
-    color: var(--white);
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.alert-danger {
-    background-color: #fef2f2;
-    color: #991b1b;
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-size: 0.9rem;
-}
-
-/* Footer */
-.site-footer {
-    background-color: var(--white);
-    border-top: 1px solid var(--border-color);
-    text-align: center;
-    padding: 20px 0;
-    color: #64748b;
-    font-size: 0.9rem;
-    margin-top: 50px;
-}
-
-/* Dropdown de Sugestões em Tempo Real */
+/* Dropdown de Autocomplete / Sugestões */
 .search-suggestions-dropdown {
     display: none;
     position: absolute;
@@ -283,7 +225,7 @@ body {
     border-bottom: 1px solid var(--border-color);
     text-decoration: none;
     color: var(--text-color);
-    transition: background 0.2s;
+    transition: background-color 0.2s;
 }
 
 .suggestion-item:last-child {
@@ -291,7 +233,7 @@ body {
 }
 
 .suggestion-item:hover {
-    background: #f8fafc;
+    background-color: #f8fafc;
 }
 
 .sugg-sub {
@@ -318,12 +260,250 @@ body {
     font-size: 0.9rem;
 }
 
-/* Layout de Busca com Barra Lateral de Filtros */
+/* ===================================================
+   4. HOME - HERO & CATEGORIAS
+   =================================================== */
+.hero-section {
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.92) 0%, rgba(16, 185, 129, 0.55) 100%), 
+                url('../img/hero-bg.jpg') center/cover no-repeat;
+    color: var(--white);
+    padding: 75px 0;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 2.1rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.hero-content p {
+    color: #cbd5e1;
+    margin-bottom: 25px;
+    font-size: 1rem;
+}
+
+.categories-section {
+    padding: 45px 20px;
+}
+
+.grid-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 20px;
+}
+
+.card-category {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 22px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-category:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: var(--accent-color);
+}
+
+.icon-circle {
+    width: 55px;
+    height: 55px;
+    background-color: #ecfdf5;
+    color: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+/* ===================================================
+   5. PÁGINA DE ANÚNCIO (GETNINJAS LAYOUT & SIDEBAR)
+   =================================================== */
+.breadcrumb {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: var(--accent-color);
+}
+
+/* Grid com 2 colunas: Conteúdo (esquerda) e Sidebar de Preço (direita) */
+.gn-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 35px;
+    align-items: start;
+    margin-bottom: 50px;
+}
+
+/* Imagem de Capa do Anúncio */
+.gn-cover-box {
+    width: 100%;
+    height: 380px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #e2e8f0;
+    margin-bottom: 25px;
+    border: 1px solid var(--border-color);
+}
+
+.gn-cover-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Card Fixo de Preço e Contratação */
+.gn-price-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+    position: sticky;
+    top: 85px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+}
+
+.gn-price-amount {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 10px 0 20px;
+}
+
+/* Botão de Contratação WhatsApp */
+.btn-gn-contract {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background-color: var(--whatsapp-green);
+    color: #ffffff !important;
+    text-align: center;
+    padding: 14px 20px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.btn-gn-contract:hover {
+    background-color: var(--whatsapp-hover);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+.btn-gn-contract i {
+    font-size: 1.3rem;
+}
+
+/* Tags / Selos */
+.gn-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.gn-tag {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.gn-section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--primary-color);
+}
+
+.gn-bullet-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.gn-bullet-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+.gn-bullet-list li::before {
+    content: "•";
+    position: absolute;
+    left: 4px;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* Caixa de Avisos */
+.gn-notice-box {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+    font-size: 0.88rem;
+    color: #475569;
+}
+
+.gn-notice-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ===================================================
+   6. BUSCA COM BARRA LATERAL (FILTROS)
+   =================================================== */
 .search-layout {
     display: grid;
     grid-template-columns: 260px 1fr;
     gap: 25px;
     margin-top: 25px;
+    align-items: start;
 }
 
 .filter-sidebar {
@@ -331,11 +511,10 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 20px;
-    height: fit-content;
 }
 
 .filter-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .filter-group label {
@@ -343,7 +522,7 @@ body {
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--primary-color);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .filter-group select,
@@ -358,22 +537,96 @@ body {
 
 .filter-price-range {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
 }
 
-@media (max-width: 768px) {
-    .search-layout {
-        grid-template-columns: 1fr;
-    }
+/* ===================================================
+   7. FORMULÁRIOS & BOTÕES GERAIS
+   =================================================== */
+.form-card {
+    max-width: 460px;
+    margin: 40px auto;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--accent-color);
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: var(--accent-color);
+    color: var(--white);
+    border: none;
+    padding: 11px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: var(--accent-hover);
+}
+
+.alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+/* Rodapé */
+.site-footer {
+    background-color: var(--white);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    padding: 20px 0;
+    color: #64748b;
+    font-size: 0.88rem;
+    margin-top: 50px;
 }
 
 /* ===================================================
-   ESTILOS DO MODO NOTURNO (DARK MODE) - ATUALIZADO
+   8. MOTOR DO MODO NOTURNO (DARK MODE COMPLETO)
    =================================================== */
+html.dark-mode {
+    background-color: #0b1120;
+    color: #f8fafc;
+}
 
-/* Fundo Geral e Estrutura */
-html.dark-mode,
 html.dark-mode body {
     background-color: #0b1120;
     color: #f8fafc;
@@ -381,11 +634,11 @@ html.dark-mode body {
 
 html.dark-mode .navbar {
     background-color: #0f172a;
-    border-bottom: 1px solid #1e293b;
+    border-bottom-color: #1e293b;
 }
 
 html.dark-mode .logo {
-    color: #ffffff;
+    color: #f8fafc;
 }
 
 html.dark-mode .nav-links a {
@@ -397,39 +650,40 @@ html.dark-mode .btn-login {
     color: #f8fafc;
 }
 
+/* Botão de Tema no Dark Mode */
 html.dark-mode .btn-theme-toggle {
-    border-color: #334155;
-    color: #f59e0b;
+    background: transparent !important;
+    border-color: #334155 !important;
+    color: #f59e0b !important;
 }
 
 html.dark-mode .btn-theme-toggle:hover {
-    background: #1e293b;
+    background: #1e293b !important;
 }
 
-/* 1. Correção das Barras de Busca (Header e Hero) */
+/* Barras de Pesquisa no Dark Mode */
 html.dark-mode .search-box,
 html.dark-mode .header-search {
     background-color: #0f172a !important;
-    border: 1px solid #334155 !important;
+    border-color: #334155 !important;
 }
 
 html.dark-mode .search-box input,
 html.dark-mode .header-search input {
     background: transparent !important;
     color: #f8fafc !important;
-    border: none !important;
-    box-shadow: none !important;
 }
 
 html.dark-mode .search-box input::placeholder,
 html.dark-mode .header-search input::placeholder {
-    color: #94a3b8 !important;
+    color: #64748b !important;
 }
 
-/* 2. Cards, Modais e Painéis */
+/* Cards, Sidebar e Painéis no Dark Mode */
 html.dark-mode .form-card,
 html.dark-mode .filter-sidebar,
 html.dark-mode .gn-price-card,
+html.dark-mode .card-category,
 html.dark-mode div[style*="background: #fff"],
 html.dark-mode div[style*="background:#fff"],
 html.dark-mode div[style*="background: #ffffff"] {
@@ -438,28 +692,29 @@ html.dark-mode div[style*="background: #ffffff"] {
     color: #f8fafc;
 }
 
-/* 3. Títulos, Textos e Preços */
+/* Títulos e Textos no Dark Mode */
 html.dark-mode h1, 
 html.dark-mode h2, 
 html.dark-mode h3, 
 html.dark-mode h4,
-html.dark-mode .gn-section-title {
+html.dark-mode .gn-section-title,
+html.dark-mode .card-category span {
     color: #f8fafc !important;
 }
 
-/* Preço em destaque */
+/* Preço em Destaque no Dark Mode */
 html.dark-mode .gn-price-amount,
 html.dark-mode p[style*="color: var(--primary-color)"] {
-    color: #34d399 !important; /* Verde esmeralda claro para contraste */
+    color: #34d399 !important;
 }
 
-/* Links para o perfil do prestador */
+/* Links do Prestador */
 html.dark-mode a[style*="color: var(--primary-color)"],
 html.dark-mode a[style*="color:var(--primary-color)"] {
-    color: #38bdf8 !important; /* Azul ciano com boa leitura */
+    color: #38bdf8 !important;
 }
 
-/* Textos secundários e Breadcrumb */
+/* Textos Secundários e Labels */
 html.dark-mode p[style*="color: #64748b"],
 html.dark-mode span[style*="color: #64748b"],
 html.dark-mode p[style*="color: #475569"],
@@ -474,7 +729,17 @@ html.dark-mode .breadcrumb span {
     color: #f8fafc !important;
 }
 
-/* 4. Formulários e Inputs */
+/* Garantia do Botão do WhatsApp no Dark Mode */
+html.dark-mode .btn-gn-contract {
+    background-color: var(--whatsapp-green) !important;
+    color: #ffffff !important;
+}
+
+html.dark-mode .btn-gn-contract:hover {
+    background-color: var(--whatsapp-hover) !important;
+}
+
+/* Inputs, Textareas e Selects no Dark Mode */
 html.dark-mode input[type="text"]:not(.search-box input),
 html.dark-mode input[type="email"],
 html.dark-mode input[type="password"],
@@ -486,46 +751,12 @@ html.dark-mode textarea {
     color: #f8fafc !important;
 }
 
-/* 5. Categorias na Home */
-html.dark-mode .card-category {
-    background-color: #111827;
-    border-color: #1e293b;
-    color: #f8fafc;
-}
-
-html.dark-mode .card-category span {
-    color: #f8fafc;
-}
-
-html.dark-mode .card-category:hover {
-    border-color: var(--accent-color);
-}
-
+/* Círculo de Ícones e Avisos */
 html.dark-mode .icon-circle {
     background-color: rgba(16, 185, 129, 0.15);
     color: #34d399;
 }
 
-/* 6. Dropdown de Sugestões de Busca */
-html.dark-mode .search-suggestions-dropdown {
-    background-color: #0f172a;
-    border-color: #334155;
-}
-
-html.dark-mode .suggestion-item {
-    border-bottom-color: #1e293b;
-    color: #f8fafc;
-}
-
-html.dark-mode .suggestion-item:hover {
-    background-color: #1e293b;
-}
-
-html.dark-mode .sugg-title {
-    color: #f8fafc;
-}
-
-/* 7. Tags, Listas e Avisos (GetNinjas) */
 html.dark-mode .gn-tag {
     background: #1e293b;
     color: #cbd5e1;
@@ -546,16 +777,46 @@ html.dark-mode .gn-notice-icon {
     color: #f59e0b;
 }
 
-/* Linhas divisórias */
-html.dark-mode hr,
-html.dark-mode div[style*="border-bottom: 1px solid var(--border-color)"] {
-    border-color: #1e293b !important;
+/* Dropdown de Autocomplete */
+html.dark-mode .search-suggestions-dropdown {
+    background-color: #0f172a;
+    border-color: #334155;
 }
 
-/* Rodapé */
+html.dark-mode .suggestion-item {
+    border-bottom-color: #1e293b;
+    color: #f8fafc;
+}
+
+html.dark-mode .suggestion-item:hover {
+    background-color: #1e293b;
+}
+
+html.dark-mode .sugg-title {
+    color: #f8fafc;
+}
+
+/* Rodapé no Dark Mode */
 html.dark-mode footer,
 html.dark-mode .site-footer {
     background-color: #0f172a;
-    border-top: 1px solid #1e293b;
+    border-top-color: #1e293b;
     color: #64748b;
+}
+
+/* ===================================================
+   9. RESPONSIVIDADE (MOBILE & TABLETS)
+   =================================================== */
+@media (max-width: 900px) {
+    .gn-detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .header-search {
+        display: none;
+    }
 }
