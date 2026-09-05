@@ -874,3 +874,143 @@ html.dark-mode .card-service {
 html.dark-mode .card-service:hover {
     border-color: var(--accent-color) !important;
 }
+
+/* ================= RODAPÉ MODERNO ================= */
+.site-footer {
+    background-color: #0F172A;
+    color: #F8FAFC;
+    padding-top: 45px;
+    border-top: 3px solid #00B67A;
+    margin-top: 50px;
+    font-size: 0.88rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+.footer-col h4 {
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    position: relative;
+    padding-bottom: 6px;
+}
+
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #00B67A;
+    border-radius: 2px;
+}
+
+.footer-desc {
+    color: #94A3B8;
+    line-height: 1.6;
+    margin: 12px 0 16px;
+    font-size: 0.82rem;
+}
+
+.footer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(37, 211, 102, 0.1);
+    color: #25D366;
+    border: 1px solid rgba(37, 211, 102, 0.25);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 9px;
+}
+
+.footer-col ul li a {
+    color: #94A3B8;
+    text-decoration: none;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+    display: inline-block;
+}
+
+.footer-col ul li a:hover {
+    color: #00B67A;
+    padding-left: 4px;
+}
+
+.footer-cities span {
+    display: block;
+    color: #94A3B8;
+    margin-bottom: 4px;
+    font-size: 0.82rem;
+}
+
+.footer-bottom {
+    background-color: #0B1120;
+    border-top: 1px solid #1E293B;
+    padding: 16px 20px;
+}
+
+.footer-bottom-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #64748B;
+    font-size: 0.78rem;
+}
+
+.footer-bottom-content strong {
+    color: #94A3B8;
+}
+
+.back-to-top {
+    width: 32px;
+    height: 32px;
+    background-color: #1E293B;
+    color: #00B67A;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.back-to-top:hover {
+    background-color: #00B67A;
+    color: #ffffff;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .footer-bottom-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
