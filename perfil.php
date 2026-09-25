@@ -160,11 +160,11 @@ include 'includes/header.php';
                                     <i class="fas fa-map-marker-alt" style="color: #ef4444;"></i> <?= htmlspecialchars($anuncio['bairro'] ? $anuncio['bairro'] . ' - ' : '') ?><?= htmlspecialchars($anuncio['cidade']) ?>/<?= htmlspecialchars($anuncio['estado']) ?>
                                 </p>
                             </div>
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <a href="anuncio.php?id=<?= $anuncio['id'] ?>" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.9rem;">Ver</a>
-                                <a href="perfil.php?excluir=<?= $anuncio['id'] ?>" onclick="return confirm('Excluir este anúncio?');" style="color: #ef4444; text-decoration: none; font-size: 0.9rem;"><i class="fas fa-trash"></i> Excluir</a>
-                            </div>
-                        </div>
+                           <div style="display: flex; gap: 10px; align-items: center;">
+                        <a href="anuncio.php?id=<?= $ad['id'] ?>">Ver</a>
+                        <a href="editar_anuncio.php?id=<?= $ad['id'] ?>">Editar</a>
+                        <a href="excluir_anuncio.php?id=<?= $ad['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+                    </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
