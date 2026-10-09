@@ -3,8 +3,9 @@
         <!-- Coluna 1: Sobre -->
         <div class="footer-col">
             <div class="footer-brand">
-                <span style="font-size: 1.3rem; font-weight: 800; color: #fff;">Trampo<span style="color: #00B67A;">Certo</span></span>
-            </div>
+<a href="index.php" class="logo" style="color: #ffffff; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+    <i class="fas fa-tools" style="color: #00b67a;"></i> TrampoCerto
+</a>         </div>
             <p class="footer-desc">
                 Conectando clientes e profissionais autônomos com transparência, preço justo e sem cobrança de taxas por contato.
             </p>
@@ -55,7 +56,7 @@
     <div class="footer-bottom">
         <div class="footer-bottom-content">
             <p>© <?php echo date('Y'); ?> TrampoCerto · Projeto Integrador</p>
-            <p class="tech-tag">Desenvolvido por <strong>Nycolas Barrozo</strong> · PHP / MySQL</p>
+            <p class="tech-tag">Desenvolvido por <strong>Nycolas, Bina e Cristian</strong> · PHP / MySQL</p>
             <a href="#top" class="back-to-top" title="Voltar ao topo"><i class="fas fa-chevron-up"></i></a>
         </div>
     </div>

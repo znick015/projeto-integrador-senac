@@ -1002,15 +1002,132 @@ html.dark-mode .card-service:hover {
     color: #ffffff;
 }
 
-/* Responsividade Mobile */
+/* --- CORREÇÃO UNIVERSAL MOBILE (Apresentação Segura) --- */
 @media (max-width: 768px) {
-    .footer-container {
-        grid-template-columns: 1fr;
-        gap: 25px;
+    /* 1. Trava Universal Anti-Scroll Horizontal */
+    html, body {
+        width: 100% !important;
+        overflow-x: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
     }
-    .footer-bottom-content {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
+
+    header, main, section, footer, .container, .hero, .footer-container {
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    /* 2. CABEÇALHO - LOGO EM CIMA, BOTÕES EMBAIXO */
+    header {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: auto !important;
+        padding: 20px 10px 15px 10px !important;
+        position: relative !important;
+    }
+    
+    /* Força qualquer div interna do header a virar coluna também */
+    header > div {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+
+    header .logo {
+        margin: 0 auto !important;
+        position: static !important; /* Anula posições zoadas */
+    }
+
+    /* Agrupa todos os botões e links (Início, Entrar, Criar Conta, Lua) */
+    header nav, header ul, header .menu {
+        display: flex !important;
+        flex-direction: row !important; /* Coloca os botões lado a lado */
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        position: static !important; /* Mata o float/absolute que joga pra direita */
+        transform: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Esconde ícones de busca vazios/quebrados que apareceram do nada */
+    header form.search-mobile, header .lupa-mobile {
+        display: none !important;
+    }
+
+    /* 3. Ajuste do Banner (Hero) e Pesquisa */
+    .hero {
+        padding: 30px 15px !important;
+        border-radius: 0 !important; 
+    }
+    .hero h1 { font-size: 1.8rem !important; }
+    .hero p { font-size: 0.95rem !important; padding: 0 !important; }
+    
+    .search-box {
+        display: flex !important;
+        flex-direction: column !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        padding: 15px !important;
+        border-radius: 12px !important;
+        gap: 10px !important;
+    }
+    
+    .search-box input {
+        width: 100% !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+        color: #333 !important;
+        padding: 12px !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    .search-box button {
+        width: 100% !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+    }
+
+    /* 4. Ajuste dos Cards */
+    .services-grid, .grid-categorias {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        padding: 0 15px !important; 
+    }
+    .service-card, .categoria-card {
+        width: 100% !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+    }
+    
+    .capa-anuncio img, .anuncio-detalhe img {
+         max-width: 100% !important;
+         height: auto !important;
+         border-radius: 8px !important;
+    }
+
+    /* 5. Ajuste do Rodapé (Footer) */
+    footer {
+        padding: 30px 15px !important;
+    }
+    .footer-container, .footer-grid {
+        display: flex !important;
+        flex-direction: column !important; 
+        align-items: center !important;
+        text-align: center !important;
+        gap: 30px !important;
+    }
+    .footer-grid div {
+        width: 100% !important;
     }
 }
